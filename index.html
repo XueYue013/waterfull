@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+        *{
+            padding:0;
+            margin: 0;
+        }
+        #wrap{
+            margin: 0 auto;
+            position:relative;
+        }
+        .box{
+            float: left;
+            padding:10px;
+        }
+
+        .pics img{
+            width:170px;
+            display: block;
+            border:1px solid #ccc;
+            border-radius:8px;
+            padding:10px;
+            box-shadow: 0 0 5px #ccc;
+        }
+        body{
+            height:3000px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div class="box">
+            <div class="pics">
+                <img src="images/21.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/35.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/32.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/84.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/77.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/30.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/10.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/31.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/0.jpg" alt="">
+            </div>
+        </div>
+        <div class="box">
+            <div class="pics">
+                <img src="images/89.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    <script>
+    window.onload = function(){
+
+        var data = {"dataimg":[
+            {"src":"images/21.jpg"},
+            {'src':"images/22.jpg"},
+            {"src":"images/24.jpg"},
+            {"src":"images/23.jpg"},
+            {"src":"images/25.jpg"},
+            {"src":"images/26.jpg"},
+            {"src":"images/27.jpg"},
+            {"src":"images/28.jpg"},
+            {"src":"images/29.jpg"},
+            {"src":"images/30.jpg"},
+            {"src":"images/33.jpg"},
+            {"src":"images/34.jpg"}
+
+        ]};
+
+            window.onscroll = function(){
+                var wrap = document.getElementById('wrap');
+                //创建节点
+                if(isScroll()){
+                    for(i in data.dataimg){
+                        wrap.innerHTML += `<div class="box"><div class="pics"><img src=${data.dataimg[i].src} alt=""></div></div>`;
+                    }
+                }
+                waterfall();
+            }
+        function isScroll(){
+            var box = document.querySelectorAll('.box');
+            var lastimg = box[box.length-1].offsetTop + box[box.length-1].offsetHeight/2;
+            var screenH = document.documentElement.clientHeight || document.body.clientHeight;
+            var Top = screenH + (document.documentElement.scrollTop || document.body.scrollTop);
+
+            return Top>lastimg?true:false;
+        }
+        waterfall();
+        function waterfall(){
+
+
+            var wrap = document.getElementById('wrap'),
+                width = document.documentElement.clientWidth || document.body.clientWidth,
+                box = document.querySelectorAll('.box'),
+                //一个盒子的宽度
+                boxw = box[0].offsetWidth,
+                //一行总共几个盒子
+                clow = Math.floor(width/boxw);
+            //wrap 居中
+            wrap.style.width = boxw*clow + "px";
+
+            var arr =[];
+            for(var i=0;i<box.length;i++){
+                if(i<clow){
+                    arr.push(box[i].offsetHeight);
+                }else{
+                    var minH = Math.min.apply(Math,arr);
+                    var ind = arr.indexOf(minH);
+                    box[i].style.position = "absolute";
+                    box[i].style.left = ind*boxw + "px";
+                    box[i].style.top = minH +"px";
+
+                    arr[ind] += box[i].offsetHeight;
+                }
+            }
+        }
+        }
+    </script>
+</body>
+</html>
